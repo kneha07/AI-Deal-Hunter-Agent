@@ -19,337 +19,396 @@ HOME_HTML = r"""<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Deal Hunter</title>
+    <title>Deal Hunter - Smart Shopping Assistant</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
             min-height: 100vh;
+        }
+        /* Nav */
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 14px 32px;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #1a1a1a;
+            font-weight: 800;
+            font-size: 1.1rem;
+        }
+        .nav-brand svg { width: 24px; height: 24px; }
+        .nav-tag {
+            font-size: 0.65rem;
+            background: #fff0f0;
+            color: #e53e3e;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        /* Promo banner */
+        .promo-bar {
+            background: linear-gradient(90deg, #e53e3e, #dd6b20);
             color: #fff;
-        }
-        .container {
             text-align: center;
-            max-width: 600px;
-            padding: 40px;
+            padding: 10px 16px;
+            font-size: 0.82rem;
+            font-weight: 600;
         }
-        .logo {
-            font-size: 4rem;
-            margin-bottom: 10px;
+        .promo-bar span { opacity: 0.85; }
+
+        /* Hero */
+        .hero {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 72px 24px 48px;
+            text-align: center;
         }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #f7971e, #ffd200);
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+        .hero h1 .price-pop {
+            background: linear-gradient(135deg, #e53e3e, #dd6b20);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .tagline {
-            font-size: 1.2rem;
-            color: #aaa;
+        .hero-sub {
+            font-size: 1.05rem;
+            color: #666;
+            line-height: 1.6;
             margin-bottom: 40px;
         }
-        .tabs {
+        /* Search box */
+        .search-card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            max-width: 560px;
+            margin: 0 auto;
+        }
+        .tab-pills {
             display: flex;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 24px;
-        }
-        .tab {
-            padding: 10px 24px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 8px;
-            color: #aaa;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .tab:hover {
-            background: rgba(255,255,255,0.1);
-            transform: none;
-            box-shadow: none;
-        }
-        .tab.active {
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            color: #000;
-            border-color: transparent;
-        }
-        .input-group {
-            display: flex;
-            gap: 10px;
+            gap: 4px;
+            background: #f5f5f5;
+            border-radius: 10px;
+            padding: 4px;
             margin-bottom: 20px;
         }
-        input[type="url"] {
+        .pill {
             flex: 1;
-            padding: 16px 20px;
-            border: 2px solid #444;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.05);
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-        input[type="url"]:focus {
-            border-color: #ffd200;
-        }
-        input[type="url"]::placeholder {
-            color: #666;
-        }
-        button {
-            padding: 16px 32px;
-            background: linear-gradient(135deg, #f7971e, #ffd200);
+            padding: 10px 16px;
             border: none;
-            border-radius: 12px;
-            color: #000;
-            font-size: 1rem;
+            border-radius: 8px;
+            background: transparent;
+            color: #888;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+        .pill.active {
+            background: #fff;
+            color: #1a1a1a;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+        }
+        .search-row {
+            display: flex;
+            gap: 10px;
+        }
+        .search-row input {
+            flex: 1;
+            padding: 14px 18px;
+            border: 1.5px solid #e8e8e8;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            color: #1a1a1a;
+            background: #fafafa;
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .search-row input:focus {
+            border-color: #e53e3e;
+            background: #fff;
+        }
+        .search-row input::placeholder { color: #bbb; }
+        .go-btn {
+            padding: 14px 24px;
+            background: #e53e3e;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: inherit;
+            white-space: nowrap;
+            transition: background 0.15s, transform 0.1s;
         }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 210, 0, 0.3);
+        .go-btn:hover { background: #c53030; }
+        .go-btn:active { transform: scale(0.97); }
+        .go-btn:disabled { background: #ddd; color: #999; cursor: not-allowed; transform: none; }
+        /* Loading */
+        .loader { display: none; text-align: center; margin-top: 20px; }
+        .loader.active { display: block; }
+        .loader-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 10px; }
+        .loader-dots span {
+            width: 8px; height: 8px; background: #e53e3e; border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite;
         }
-        button:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .loader-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loader-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1); opacity: 1; }
         }
-        .spinner {
+        .loader p { font-size: 0.82rem; color: #999; }
+        .error-msg {
             display: none;
-            margin: 30px auto;
+            margin-top: 14px;
+            padding: 10px 14px;
+            background: #fff5f5;
+            border: 1px solid #fed7d7;
+            border-radius: 8px;
+            color: #c53030;
+            font-size: 0.84rem;
         }
-        .spinner.active {
-            display: block;
+
+        /* Trust badges */
+        .trust-row {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 32px;
+            flex-wrap: wrap;
         }
-        .spinner div {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 15px;
-            border: 4px solid rgba(255,210,0,0.2);
-            border-top-color: #ffd200;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            color: #999;
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .trust-item svg { width: 16px; height: 16px; color: #ccc; }
+
+        /* How it works */
+        .how-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 64px 24px;
         }
-        .spinner p {
-            color: #aaa;
-            font-size: 0.95rem;
+        .how-section h2 {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #1a1a1a;
         }
-        .error {
-            color: #ff6b6b;
-            margin-top: 15px;
-            display: none;
-        }
-        .features {
+        .steps {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 50px;
+            gap: 24px;
         }
-        .feature {
-            padding: 20px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
+        .step {
+            text-align: center;
+            padding: 24px 16px;
         }
-        .feature-icon { font-size: 1.8rem; margin-bottom: 8px; }
-        .feature h3 { font-size: 0.9rem; color: #ddd; }
-        .feature p { font-size: 0.75rem; color: #888; margin-top: 5px; }
+        .step-num {
+            width: 36px;
+            height: 36px;
+            background: #fff0f0;
+            color: #e53e3e;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+        }
+        .step h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+        .step p { font-size: 0.82rem; color: #888; line-height: 1.5; }
+        /* Stores strip */
+        .stores-strip {
+            text-align: center;
+            padding: 32px 24px 64px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .stores-strip p {
+            font-size: 0.75rem;
+            color: #bbb;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 16px;
+        }
+        .store-logos {
+            display: flex;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            color: #ccc;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .store-logos span { opacity: 0.5; }
+
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 1.9rem; }
+            .search-row { flex-direction: column; }
+            .go-btn { width: 100%; }
+            .steps { grid-template-columns: 1fr; gap: 16px; }
+            .hero { padding: 48px 20px 32px; }
+            .nav { padding: 12px 16px; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="logo">&#x1F50D;</div>
-        <h1>AI Deal Hunter</h1>
-        <p class="tagline">Save $200 in 30 seconds. Paste any product URL.</p>
+    <div class="promo-bar">&#x1F525; <span>AI-powered price hunting &mdash; compare 6+ stores in 30 seconds</span></div>
+    <nav class="nav">
+        <a href="/" class="nav-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Deal Hunter
+        </a>
+        <span class="nav-tag">Beta</span>
+    </nav>
 
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('url')">Analyze URL</button>
-            <button class="tab" onclick="switchTab('search')">Search Deals</button>
+    <div class="hero">
+        <h1>Find the <span class="price-pop">lowest price</span> on anything you want to buy</h1>
+        <p class="hero-sub">Paste a product link or search for what you need. Our AI checks prices across stores, reads reviews, and tells you if it's worth buying today.</p>
+
+        <div class="search-card">
+            <div class="tab-pills">
+                <button class="pill active" onclick="switchTab('url')">&#x1F517; Paste a link</button>
+                <button class="pill" onclick="switchTab('search')">&#x1F6D2; Search product</button>
+            </div>
+            <div id="url-tab">
+                <div class="search-row">
+                    <input type="url" id="urlInput" placeholder="https://amazon.com/dp/B0..." aria-label="Product URL" />
+                    <button class="go-btn" id="analyzeBtn" onclick="analyzeProduct()">Hunt deal</button>
+                </div>
+            </div>
+            <div id="search-tab" style="display:none">
+                <div class="search-row">
+                    <input type="text" id="searchInput" placeholder="wireless earbuds, air fryer, running shoes..." aria-label="Search" />
+                    <button class="go-btn" id="searchBtn" onclick="searchDeals()">Find deals</button>
+                </div>
+            </div>
+            <div class="loader" id="spinner">
+                <div class="loader-dots"><span></span><span></span><span></span></div>
+                <p id="spinnerText">Checking prices across stores...</p>
+            </div>
+            <div class="error-msg" id="errorMsg"></div>
         </div>
 
-        <div id="url-tab">
-            <div class="input-group">
-                <input type="url" id="urlInput" placeholder="Paste Amazon, Best Buy, or any product URL..." aria-label="Product URL" />
-                <button id="analyzeBtn" onclick="analyzeProduct()">Hunt Deal</button>
+        <div class="trust-row">
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                No sign-up needed
             </div>
-        </div>
-
-        <div id="search-tab" style="display:none">
-            <div class="input-group">
-                <input type="text" id="searchInput" placeholder="e.g. best wireless earbuds under $50..." aria-label="Search query" style="flex:1;padding:16px 20px;border:2px solid #444;border-radius:12px;background:rgba(255,255,255,0.05);color:#fff;font-size:1rem;outline:none;" />
-                <button id="searchBtn" onclick="searchDeals()">Find Deals</button>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Results in 30 seconds
             </div>
-        </div>
-
-        <div class="spinner" id="spinner">
-            <div></div>
-            <p id="spinnerText">Scraping product data...</p>
-        </div>
-
-        <p class="error" id="errorMsg"></p>
-
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">&#x1F4B0;</div>
-                <h3>Price Comparison</h3>
-                <p>Finds prices across stores</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F4CA;</div>
-                <h3>Deal Grade</h3>
-                <p>A+ to F rating system</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F916;</div>
-                <h3>AI Analysis</h3>
-                <p>Buy now or wait verdict</p>
+            <div class="trust-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Avg $127 saved
             </div>
         </div>
     </div>
 
+    <div class="how-section">
+        <h2>How it works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h3>Paste or search</h3>
+                <p>Drop in any product URL from Amazon, Best Buy, Walmart — or just describe what you want</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h3>AI hunts deals</h3>
+                <p>We scrape prices from 6+ stores, analyze reviews, and check price history in seconds</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h3>Buy or wait</h3>
+                <p>Get a deal grade, price prediction, cheaper alternatives, and a clear buy/wait recommendation</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="stores-strip">
+        <p>Compares prices from</p>
+        <div class="store-logos">
+            <span>Amazon</span>
+            <span>Walmart</span>
+            <span>Best Buy</span>
+            <span>Target</span>
+            <span>Newegg</span>
+            <span>eBay</span>
+        </div>
+    </div>
+
     <script>
-        var spinnerMessages = [
-            "Scraping product data...",
-            "Searching competitor prices...",
-            "Analyzing reviews with AI...",
-            "Generating deal report..."
-        ];
-
-        function analyzeProduct() {
-            var url = document.getElementById("urlInput").value.trim();
-            if (!url) {
-                showError("Please paste a product URL.");
-                return;
-            }
-
-            var btn = document.getElementById("analyzeBtn");
-            var spinner = document.getElementById("spinner");
-            var errorMsg = document.getElementById("errorMsg");
-
-            btn.disabled = true;
-            spinner.classList.add("active");
-            errorMsg.style.display = "none";
-
-            var msgIndex = 0;
-            var msgInterval = setInterval(function() {
-                msgIndex = (msgIndex + 1) % spinnerMessages.length;
-                document.getElementById("spinnerText").textContent = spinnerMessages[msgIndex];
-            }, 4000);
-
-            fetch("/analyze", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({product_url: url})
-            })
-            .then(function(res) { return res.json(); })
-            .then(function(data) {
-                clearInterval(msgInterval);
-                if (data.success && data.report_id) {
-                    window.location.href = "/report/" + data.report_id;
-                } else {
-                    showError(data.message || "Analysis failed. Try another URL.");
-                    btn.disabled = false;
-                    spinner.classList.remove("active");
-                }
-            })
-            .catch(function(err) {
-                clearInterval(msgInterval);
-                showError("Network error. Please try again.");
-                btn.disabled = false;
-                spinner.classList.remove("active");
-            });
-        }
-
-        function showError(msg) {
-            var el = document.getElementById("errorMsg");
-            el.textContent = msg;
-            el.style.display = "block";
-        }
-
-        document.getElementById("urlInput").addEventListener("keydown", function(e) {
-            if (e.key === "Enter") analyzeProduct();
-        });
-
-        function switchTab(tab) {
-            var tabs = document.querySelectorAll(".tab");
-            tabs[0].classList.toggle("active", tab === "url");
-            tabs[1].classList.toggle("active", tab === "search");
-            document.getElementById("url-tab").style.display = tab === "url" ? "block" : "none";
-            document.getElementById("search-tab").style.display = tab === "search" ? "block" : "none";
+        var msgs = ["Checking prices across stores...", "Reading customer reviews...", "Finding cheaper alternatives...", "Generating your deal report..."];
+        function switchTab(t) {
+            document.querySelectorAll(".pill").forEach(function(p,i){ p.classList.toggle("active", (t==="url"&&i===0)||(t==="search"&&i===1)); });
+            document.getElementById("url-tab").style.display = t==="url"?"block":"none";
+            document.getElementById("search-tab").style.display = t==="search"?"block":"none";
             document.getElementById("errorMsg").style.display = "none";
         }
-
+        function showErr(m) { var e=document.getElementById("errorMsg"); e.textContent=m; e.style.display="block"; }
+        function analyzeProduct() {
+            var url = document.getElementById("urlInput").value.trim();
+            if (!url) { showErr("Paste a product URL to get started."); return; }
+            var btn = document.getElementById("analyzeBtn");
+            var sp = document.getElementById("spinner");
+            btn.disabled = true; sp.classList.add("active"); document.getElementById("errorMsg").style.display="none";
+            var mi=0, iv=setInterval(function(){ mi=(mi+1)%msgs.length; document.getElementById("spinnerText").textContent=msgs[mi]; },3500);
+            fetch("/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({product_url:url})})
+            .then(function(r){return r.json();})
+            .then(function(d){ clearInterval(iv); if(d.success&&d.report_id){window.location.href="/report/"+d.report_id;}else{showErr(d.message||"Couldn't analyze this product.");btn.disabled=false;sp.classList.remove("active");}})
+            .catch(function(){clearInterval(iv);showErr("Network error. Try again.");btn.disabled=false;sp.classList.remove("active");});
+        }
         function searchDeals() {
-            var query = document.getElementById("searchInput").value.trim();
-            if (!query) {
-                showError("Please enter what you're looking for.");
-                return;
-            }
-
+            var q = document.getElementById("searchInput").value.trim();
+            if (!q) { showErr("Tell us what you're shopping for."); return; }
             var btn = document.getElementById("searchBtn");
-            var spinner = document.getElementById("spinner");
-            var errorMsg = document.getElementById("errorMsg");
-
-            btn.disabled = true;
-            spinner.classList.add("active");
-            errorMsg.style.display = "none";
-
-            var searchMessages = [
-                "Searching Amazon...",
-                "Comparing products...",
-                "AI picking the best deal..."
-            ];
-            var msgIndex = 0;
-            var msgInterval = setInterval(function() {
-                msgIndex = (msgIndex + 1) % searchMessages.length;
-                document.getElementById("spinnerText").textContent = searchMessages[msgIndex];
-            }, 3000);
-
-            fetch("/search", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({query: query})
-            })
-            .then(function(res) { return res.json(); })
-            .then(function(data) {
-                clearInterval(msgInterval);
-                if (data.success) {
-                    window.location.href = "/search-results?q=" + encodeURIComponent(query) + "&id=" + encodeURIComponent(data.search_id);
-                } else {
-                    showError(data.message || "Search failed. Try different terms.");
-                    btn.disabled = false;
-                    spinner.classList.remove("active");
-                }
-            })
-            .catch(function(err) {
-                clearInterval(msgInterval);
-                showError("Network error. Please try again.");
-                btn.disabled = false;
-                spinner.classList.remove("active");
-            });
+            var sp = document.getElementById("spinner");
+            btn.disabled = true; sp.classList.add("active"); document.getElementById("errorMsg").style.display="none";
+            var sm=["Searching products...","Comparing prices...","Picking the best deal..."],mi=0;
+            var iv=setInterval(function(){mi=(mi+1)%sm.length;document.getElementById("spinnerText").textContent=sm[mi];},3000);
+            fetch("/search",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:q})})
+            .then(function(r){return r.json();})
+            .then(function(d){clearInterval(iv);if(d.success){window.location.href="/search-results?q="+encodeURIComponent(q)+"&id="+encodeURIComponent(d.search_id);}else{showErr(d.message||"Search failed.");btn.disabled=false;sp.classList.remove("active");}})
+            .catch(function(){clearInterval(iv);showErr("Network error.");btn.disabled=false;sp.classList.remove("active");});
         }
-
-        document.getElementById("searchInput").addEventListener("keydown", function(e) {
-            if (e.key === "Enter") searchDeals();
-        });
-
-        // Prefill URL from query param (from search results "Analyze" button)
-        var params = new URLSearchParams(window.location.search);
-        var prefill = params.get("prefill");
-        if (prefill) {
-            document.getElementById("urlInput").value = prefill;
-            switchTab("url");
-        }
+        document.getElementById("urlInput").addEventListener("keydown",function(e){if(e.key==="Enter")analyzeProduct();});
+        document.getElementById("searchInput").addEventListener("keydown",function(e){if(e.key==="Enter")searchDeals();});
+        var pp=new URLSearchParams(window.location.search);if(pp.get("prefill")){document.getElementById("urlInput").value=pp.get("prefill");switchTab("url");}
     </script>
 </body>
 </html>"""
@@ -360,456 +419,307 @@ REPORT_HTML = r"""<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Deal Report - AI Deal Hunter</title>
+    <title>Deal Report - Deal Hunter</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
             min-height: 100vh;
-            color: #fff;
-            padding: 40px 20px;
+            padding-bottom: 60px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
-        .back-link {
-            color: #ffd200;
+        .nav {
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             text-decoration: none;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-bottom: 20px;
+            color: #1a1a1a;
+            font-weight: 800;
+            font-size: 1.1rem;
         }
-        .back-link:hover { text-decoration: underline; }
-        .header {
+        .nav-brand svg { width: 22px; height: 22px; }
+        .container { max-width: 820px; margin: 0 auto; padding: 32px 20px; }
+
+        /* Product card at top */
+        .product-card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 28px;
             display: flex;
             gap: 24px;
             align-items: flex-start;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
         }
-        .product-image {
+        .product-card img {
             width: 120px;
             height: 120px;
             object-fit: contain;
-            background: #fff;
+            background: #fafafa;
             border-radius: 12px;
             padding: 8px;
+            border: 1px solid #f0f0f0;
+            flex-shrink: 0;
         }
-        .product-info { flex: 1; min-width: 200px; }
-        .product-info h1 { font-size: 1.5rem; margin-bottom: 8px; }
-        .product-info .price { font-size: 1.8rem; color: #ffd200; font-weight: 700; }
-        .grade-badge {
+        .product-card .info { flex: 1; }
+        .product-card h1 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; line-height: 1.3; color: #1a1a1a; }
+        .product-card .price-line { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .product-card .price { font-size: 1.8rem; font-weight: 800; color: #1a1a1a; }
+        /* Grade badge */
+        .grade {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            font-size: 2rem;
-            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 800;
         }
-        .grade-a { background: linear-gradient(135deg, #00b894, #00cec9); color: #fff; }
-        .grade-b { background: linear-gradient(135deg, #0984e3, #74b9ff); color: #fff; }
-        .grade-c { background: linear-gradient(135deg, #fdcb6e, #f39c12); color: #000; }
-        .grade-d { background: linear-gradient(135deg, #e17055, #d63031); color: #fff; }
-        .grade-f { background: linear-gradient(135deg, #636e72, #2d3436); color: #fff; }
-        .verdict-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
+        .grade-a { background: #dcfce7; color: #166534; }
+        .grade-b { background: #dbeafe; color: #1e40af; }
+        .grade-c { background: #fef3c7; color: #92400e; }
+        .grade-d { background: #fee2e2; color: #991b1b; }
+        .grade-f { background: #f3f4f6; color: #6b7280; }
+
+        /* Verdict */
+        .verdict-banner {
+            background: #fff;
+            border: 1px solid #e8e8e8;
             border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 24px;
+            padding: 24px 28px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
         }
-        .verdict-title {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-        .verdict-buy { color: #00b894; }
-        .verdict-wait { color: #fdcb6e; }
-        .confidence-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 4px;
-            margin-top: 12px;
-            overflow: hidden;
-        }
-        .confidence-fill {
-            height: 100%;
-            border-radius: 4px;
-            background: linear-gradient(90deg, #ffd200, #f7971e);
-            transition: width 1s ease;
-        }
-        .confidence-label {
-            font-size: 0.85rem;
-            color: #aaa;
-            margin-top: 6px;
-        }
-        .section {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-        }
-        .section h2 {
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: #ffd200;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px 12px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-        th { color: #aaa; font-size: 0.85rem; text-transform: uppercase; }
-        td a { color: #74b9ff; text-decoration: none; }
-        td a:hover { text-decoration: underline; }
-        .sentiment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-        }
-        .sentiment-col h3 {
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-        .sentiment-col.loves h3 { color: #00b894; }
-        .sentiment-col.complaints h3 { color: #fdcb6e; }
-        .sentiment-col.breakers h3 { color: #ff6b6b; }
-        .sentiment-col ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sentiment-col li {
-            padding: 6px 0;
-            font-size: 0.9rem;
-            color: #ccc;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .box-link {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: rgba(0, 107, 228, 0.2);
-            border: 1px solid #006be4;
-            border-radius: 8px;
-            color: #74b9ff;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        .box-link:hover { background: rgba(0, 107, 228, 0.3); }
-        .savings {
-            font-size: 1.1rem;
-            color: #00b894;
+        .verdict-banner .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #999;
+            margin-bottom: 6px;
             font-weight: 600;
-            margin-top: 8px;
         }
-        .dupe-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
+        .verdict-banner .verdict-text {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
         }
-        .dupe-card {
-            background: rgba(167, 0, 255, 0.08);
-            border: 1px solid rgba(167, 0, 255, 0.3);
-            border-radius: 12px;
-            padding: 16px;
+        .v-buy { color: #16a34a; }
+        .v-wait { color: #d97706; }
+        .verdict-banner .reason {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 14px;
         }
-        .dupe-card h3 {
-            font-size: 0.95rem;
-            margin-bottom: 6px;
-            color: #d4a5ff;
-        }
-        .dupe-card .dupe-price {
-            font-size: 1.2rem;
+        .conf-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .conf-track { flex: 1; height: 6px; background: #f0f0f0; border-radius: 3px; overflow: hidden; }
+        .conf-bar { height: 100%; background: #e53e3e; border-radius: 3px; transition: width 1s ease; }
+        .conf-label { font-size: 0.78rem; color: #999; font-weight: 600; min-width: 32px; }
+        .savings-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 6px;
+            font-size: 0.82rem;
             font-weight: 700;
-            color: #00b894;
-            margin-bottom: 6px;
         }
-        .dupe-card .dupe-reason {
-            font-size: 0.85rem;
-            color: #bbb;
-            line-height: 1.4;
-        }
-        .prediction-card {
-            background: rgba(9, 132, 227, 0.08);
-            border: 1px solid rgba(9, 132, 227, 0.3);
-            border-radius: 12px;
-            padding: 20px;
+
+        /* Cards */
+        .card {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 16px;
+            padding: 24px 28px;
             margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
         }
-        .prediction-card h2 {
-            font-size: 1.1rem;
-            margin-bottom: 12px;
-            color: #74b9ff;
-        }
-        .trend-indicator {
-            display: inline-flex;
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 16px;
+            display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 1.1rem;
+        }
+        .card-title .emoji { font-size: 1.1rem; }
+        /* Table */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 11px 0; text-align: left; font-size: 0.88rem; border-bottom: 1px solid #f0f0f0; }
+        th { color: #999; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+        td { color: #333; }
+        td a { color: #e53e3e; text-decoration: none; font-weight: 600; }
+        td a:hover { text-decoration: underline; }
+        td:last-child, th:last-child { text-align: right; }
+
+        /* Sentiment */
+        .sent-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .sent-col h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; margin-bottom: 10px; }
+        .sent-col.loves h4 { color: #16a34a; }
+        .sent-col.complaints h4 { color: #d97706; }
+        .sent-col.breakers h4 { color: #dc2626; }
+        .sent-col ul { list-style: none; }
+        .sent-col li { font-size: 0.84rem; color: #555; padding: 6px 0; border-bottom: 1px solid #f5f5f5; line-height: 1.4; }
+
+        /* Prediction */
+        .trend-chip {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.78rem;
             font-weight: 700;
             margin-bottom: 10px;
         }
-        .trend-dropping { color: #00b894; }
-        .trend-rising { color: #ff6b6b; }
-        .trend-stable { color: #fdcb6e; }
-        .prediction-text {
-            font-size: 0.95rem;
-            color: #ddd;
-            margin-bottom: 10px;
-            line-height: 1.5;
-        }
-        .best-time {
+        .trend-dropping { background: #dcfce7; color: #166534; }
+        .trend-rising { background: #fee2e2; color: #991b1b; }
+        .trend-stable { background: #fef3c7; color: #92400e; }
+        .pred-text { font-size: 0.9rem; color: #555; line-height: 1.6; margin-bottom: 10px; }
+        .best-time-chip {
             display: inline-block;
-            padding: 6px 14px;
-            background: rgba(0, 184, 148, 0.15);
-            border: 1px solid rgba(0, 184, 148, 0.4);
-            border-radius: 20px;
-            font-size: 0.85rem;
-            color: #00b894;
+            padding: 6px 12px;
+            background: #f5f5f5;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #555;
             font-weight: 600;
+        }
+
+        /* Dupes */
+        .dupe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+        .dupe-card {
+            border: 1px solid #f0f0f0;
+            border-radius: 12px;
+            padding: 16px;
+            background: #fafafa;
+        }
+        .dupe-card h4 { font-size: 0.88rem; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .dupe-card .dp { font-size: 1.1rem; font-weight: 800; color: #16a34a; margin-bottom: 6px; }
+        .dupe-card .dw { font-size: 0.78rem; color: #888; line-height: 1.4; }
+        .dupe-card a { display: inline-block; margin-top: 8px; font-size: 0.78rem; color: #e53e3e; text-decoration: none; font-weight: 600; }
+        .dupe-card a:hover { text-decoration: underline; }
+
+        .box-link {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 10px 18px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.84rem;
+            font-weight: 600;
+        }
+        .box-link:hover { border-color: #bbb; }
+
+        @media (max-width: 640px) {
+            .product-card { flex-direction: column; align-items: center; text-align: center; }
+            .sent-grid { grid-template-columns: 1fr; }
+            .dupe-grid { grid-template-columns: 1fr; }
+            .container { padding: 20px 16px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="/" class="back-link">&larr; Back to Search</a>
-        <div id="report-content"></div>
-    </div>
+    <nav class="nav">
+        <a href="/" class="nav-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Deal Hunter
+        </a>
+    </nav>
+    <div class="container" id="report-content"></div>
     <script type="text/plain" id="raw">REPORT_DATA_PLACEHOLDER</script>
     <script>
-        var rawEl = document.getElementById("raw");
-        var data = JSON.parse(rawEl.textContent);
-        var container = document.getElementById("report-content");
+        var data = JSON.parse(document.getElementById("raw").textContent);
+        var c = document.getElementById("report-content");
+        function esc(s){if(!s)return "";var d=document.createElement("div");d.appendChild(document.createTextNode(s));return d.innerHTML;}
+        function gc(g){var l=g.charAt(0).toUpperCase();if(l==="A")return"grade-a";if(l==="B")return"grade-b";if(l==="C")return"grade-c";if(l==="D")return"grade-d";return"grade-f";}
 
-        function gradeClass(grade) {
-            var g = grade.charAt(0).toUpperCase();
-            if (g === "A") return "grade-a";
-            if (g === "B") return "grade-b";
-            if (g === "C") return "grade-c";
-            if (g === "D") return "grade-d";
-            return "grade-f";
-        }
-
-        function escapeHtml(str) {
-            if (!str) return "";
-            var div = document.createElement("div");
-            div.appendChild(document.createTextNode(str));
-            return div.innerHTML;
-        }
-
-        var html = "";
-
-        // Header
-        html += '<div class="header">';
-        if (data.product_image) {
-            html += '<img class="product-image" src="' + escapeHtml(data.product_image) + '" alt="Product" />';
-        }
-        html += '<div class="product-info">';
-        html += '<h1>' + escapeHtml(data.product_name) + '</h1>';
-        html += '<div class="price">$' + escapeHtml(data.product_price) + '</div>';
-        html += '</div>';
-        html += '<div class="grade-badge ' + gradeClass(data.deal_grade) + '">' + escapeHtml(data.deal_grade) + '</div>';
-        html += '</div>';
+        var h = "";
+        // Product
+        h += '<div class="product-card">';
+        if (data.product_image) h += '<img src="'+esc(data.product_image)+'" alt="Product" />';
+        h += '<div class="info"><h1>'+esc(data.product_name)+'</h1>';
+        h += '<div class="price-line"><span class="price">$'+esc(data.product_price)+'</span>';
+        h += '<span class="grade '+gc(data.deal_grade)+'">'+esc(data.deal_grade)+' Deal</span></div></div></div>';
 
         // Verdict
-        var verdictClass = data.buy_or_wait.toLowerCase().indexOf("buy") >= 0 ? "verdict-buy" : "verdict-wait";
-        html += '<div class="verdict-card">';
-        html += '<div class="verdict-title ' + verdictClass + '">' + escapeHtml(data.buy_or_wait) + '</div>';
-        html += '<p>' + escapeHtml(data.buy_or_wait_reason) + '</p>';
-        html += '<div class="confidence-bar"><div class="confidence-fill" style="width:' + data.confidence_pct + '%"></div></div>';
-        html += '<div class="confidence-label">Confidence: ' + data.confidence_pct + '%</div>';
-        html += '<div class="savings">' + escapeHtml(data.savings_potential) + '</div>';
-        html += '</div>';
+        var vc = data.buy_or_wait.toLowerCase().indexOf("buy")>=0?"v-buy":"v-wait";
+        h += '<div class="verdict-banner">';
+        h += '<div class="label">AI Recommendation</div>';
+        h += '<div class="verdict-text '+vc+'">'+esc(data.buy_or_wait)+'</div>';
+        h += '<div class="reason">'+esc(data.buy_or_wait_reason)+'</div>';
+        h += '<div class="conf-row"><div class="conf-track"><div class="conf-bar" style="width:'+data.confidence_pct+'%"></div></div><span class="conf-label">'+data.confidence_pct+'%</span></div>';
+        if (data.savings_potential) h += '<span class="savings-badge">'+esc(data.savings_potential)+'</span>';
+        h += '</div>';
 
-        // Price Prediction
+        // Prediction
         if (data.price_prediction) {
-            var trendIcon = "&#x27A1;";
-            var trendClass = "trend-stable";
-            var trendLabel = "Stable";
-            if (data.price_prediction.trend === "dropping") {
-                trendIcon = "&#x2198;";
-                trendClass = "trend-dropping";
-                trendLabel = "Price Dropping";
-            } else if (data.price_prediction.trend === "rising") {
-                trendIcon = "&#x2197;";
-                trendClass = "trend-rising";
-                trendLabel = "Price Rising";
-            }
-            html += '<div class="prediction-card">';
-            html += '<h2>&#x1F4C8; Price Prediction</h2>';
-            html += '<div class="trend-indicator ' + trendClass + '">' + trendIcon + ' ' + trendLabel + '</div>';
-            html += '<div class="prediction-text">' + escapeHtml(data.price_prediction.prediction) + '</div>';
-            html += '<span class="best-time">&#x1F4C5; Best time to buy: ' + escapeHtml(data.price_prediction.best_time_to_buy) + '</span>';
-            html += '</div>';
+            var tl="Stable",tc="trend-stable";
+            if(data.price_prediction.trend==="dropping"){tl="Price Dropping";tc="trend-dropping";}
+            else if(data.price_prediction.trend==="rising"){tl="Price Rising";tc="trend-rising";}
+            h += '<div class="card"><div class="card-title"><span class="emoji">&#x1F4C9;</span> Price Prediction</div>';
+            h += '<span class="trend-chip '+tc+'">'+tl+'</span>';
+            h += '<div class="pred-text">'+esc(data.price_prediction.prediction)+'</div>';
+            h += '<span class="best-time-chip">&#x1F4C5; '+esc(data.price_prediction.best_time_to_buy)+'</span></div>';
         }
 
-        // Competitor Prices
+        // Prices
         if (data.competitor_prices && data.competitor_prices.length > 0) {
-            html += '<div class="section">';
-            html += '<h2>Price Comparison</h2>';
-            html += '<table><thead><tr><th>Store</th><th>Price</th><th>Link</th></tr></thead><tbody>';
-            for (var i = 0; i < data.competitor_prices.length; i++) {
-                var cp = data.competitor_prices[i];
-                html += '<tr>';
-                html += '<td>' + escapeHtml(cp.store) + '</td>';
-                html += '<td>' + escapeHtml(cp.price) + '</td>';
-                if (cp.url) {
-                    html += '<td><a href="' + escapeHtml(cp.url) + '" target="_blank">View</a></td>';
-                } else {
-                    html += '<td>-</td>';
-                }
-                html += '</tr>';
-            }
-            html += '</tbody></table></div>';
+            h += '<div class="card"><div class="card-title"><span class="emoji">&#x1F6D2;</span> Price Comparison</div>';
+            h += '<table><thead><tr><th>Store</th><th>Price</th><th></th></tr></thead><tbody>';
+            for(var i=0;i<data.competitor_prices.length;i++){var cp=data.competitor_prices[i];h+='<tr><td>'+esc(cp.store)+'</td><td style="font-weight:700">'+esc(cp.price)+'</td><td>'+(cp.url?'<a href="'+esc(cp.url)+'" target="_blank">Shop &rarr;</a>':'')+'</td></tr>';}
+            h += '</tbody></table></div>';
         }
 
-        // Review Sentiment
+        // Sentiment
         if (data.review_sentiment) {
-            html += '<div class="section">';
-            html += '<h2>Review Analysis</h2>';
-            html += '<div class="sentiment-grid">';
-
-            html += '<div class="sentiment-col loves"><h3>&#x2764; People Love</h3><ul>';
-            for (var i = 0; i < data.review_sentiment.loves.length; i++) {
-                html += '<li>' + escapeHtml(data.review_sentiment.loves[i]) + '</li>';
-            }
-            html += '</ul></div>';
-
-            html += '<div class="sentiment-col complaints"><h3>&#x26A0; Complaints</h3><ul>';
-            for (var i = 0; i < data.review_sentiment.complaints.length; i++) {
-                html += '<li>' + escapeHtml(data.review_sentiment.complaints[i]) + '</li>';
-            }
-            html += '</ul></div>';
-
-            html += '<div class="sentiment-col breakers"><h3>&#x1F6A8; Deal Breakers</h3><ul>';
-            if (data.review_sentiment.deal_breakers.length === 0) {
-                html += '<li>None found</li>';
-            } else {
-                for (var i = 0; i < data.review_sentiment.deal_breakers.length; i++) {
-                    html += '<li>' + escapeHtml(data.review_sentiment.deal_breakers[i]) + '</li>';
-                }
-            }
-            html += '</ul></div>';
-
-            html += '</div></div>';
+            h += '<div class="card"><div class="card-title"><span class="emoji">&#x1F4AC;</span> What Shoppers Say</div>';
+            h += '<div class="sent-grid">';
+            h += '<div class="sent-col loves"><h4>&#x2705; Love it</h4><ul>';
+            for(var i=0;i<data.review_sentiment.loves.length;i++) h+='<li>'+esc(data.review_sentiment.loves[i])+'</li>';
+            h += '</ul></div>';
+            h += '<div class="sent-col complaints"><h4>&#x26A0;&#xFE0F; Meh</h4><ul>';
+            for(var i=0;i<data.review_sentiment.complaints.length;i++) h+='<li>'+esc(data.review_sentiment.complaints[i])+'</li>';
+            h += '</ul></div>';
+            h += '<div class="sent-col breakers"><h4>&#x1F6A9; Avoid if</h4><ul>';
+            if(data.review_sentiment.deal_breakers.length===0) h+='<li>No major issues found</li>';
+            else for(var i=0;i<data.review_sentiment.deal_breakers.length;i++) h+='<li>'+esc(data.review_sentiment.deal_breakers[i])+'</li>';
+            h += '</ul></div></div></div>';
         }
 
-        // Dupe Finder
+        // Dupes
         if (data.dupes && data.dupes.length > 0) {
-            html += '<div class="section">';
-            html += '<h2>&#x1F50D; Dupe Finder &mdash; Cheaper Alternatives</h2>';
-            html += '<div class="dupe-grid">';
-            for (var i = 0; i < data.dupes.length; i++) {
-                var dupe = data.dupes[i];
-                html += '<div class="dupe-card">';
-                html += '<h3>' + escapeHtml(dupe.name) + '</h3>';
-                html += '<div class="dupe-price">' + escapeHtml(dupe.price) + '</div>';
-                html += '<div class="dupe-reason">' + escapeHtml(dupe.why_its_a_dupe) + '</div>';
-                if (dupe.url) {
-                    html += '<a href="' + escapeHtml(dupe.url) + '" target="_blank" style="display:inline-block;margin-top:8px;color:#74b9ff;font-size:0.85rem;text-decoration:none;">View Product &rarr;</a>';
-                }
-                html += '</div>';
-            }
-            html += '</div></div>';
+            h += '<div class="card"><div class="card-title"><span class="emoji">&#x1F4A1;</span> Cheaper Alternatives</div>';
+            h += '<div class="dupe-grid">';
+            for(var i=0;i<data.dupes.length;i++){var d=data.dupes[i];h+='<div class="dupe-card"><h4>'+esc(d.name)+'</h4><div class="dp">'+esc(d.price)+'</div><div class="dw">'+esc(d.why_its_a_dupe)+'</div>'+(d.url?'<a href="'+esc(d.url)+'" target="_blank">View &rarr;</a>':'')+'</div>';}
+            h += '</div></div>';
         }
 
-        // Box link
-        if (data.box_file_url) {
-            html += '<a class="box-link" href="' + escapeHtml(data.box_file_url) + '" target="_blank">&#x1F4C4; View Full Report on Box</a>';
-        }
+        if (data.box_file_url) h += '<a class="box-link" href="'+esc(data.box_file_url)+'" target="_blank">&#x1F4CE; Full report on Box</a>';
+        c.innerHTML = h;
 
-        container.innerHTML = html;
+        // Confetti for great deals
+        var grade=data.deal_grade.toUpperCase();
+        var isBuy=data.buy_or_wait.toLowerCase().indexOf("buy")>=0;
+        if((grade==="A+"||grade==="A"||grade==="A-"||grade==="B+")&&isBuy){chaChing();confetti();}
 
-        // Confetti + sound for great deals
-        var grade = data.deal_grade.toUpperCase();
-        var isBuy = data.buy_or_wait.toLowerCase().indexOf("buy") >= 0;
-        var isGreatDeal = (grade === "A+" || grade === "A" || grade === "A-" || grade === "B+") && isBuy;
+        function chaChing(){try{var ctx=new(window.AudioContext||window.webkitAudioContext)();[{f:1318,s:0,d:0.1},{f:1568,s:0.1,d:0.1},{f:2093,s:0.2,d:0.3}].forEach(function(n){var o=ctx.createOscillator(),g=ctx.createGain();o.type="sine";o.frequency.value=n.f;g.gain.setValueAtTime(0.3,ctx.currentTime+n.s);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+n.s+n.d);o.connect(g);g.connect(ctx.destination);o.start(ctx.currentTime+n.s);o.stop(ctx.currentTime+n.s+n.d);});}catch(e){}}
 
-        if (isGreatDeal) {
-            playChaChing();
-            launchConfetti();
-        }
-
-        function playChaChing() {
-            try {
-                var ctx = new (window.AudioContext || window.webkitAudioContext)();
-                var notes = [
-                    {freq: 1318, start: 0, dur: 0.1},
-                    {freq: 1568, start: 0.1, dur: 0.1},
-                    {freq: 2093, start: 0.2, dur: 0.3}
-                ];
-                notes.forEach(function(n) {
-                    var osc = ctx.createOscillator();
-                    var gain = ctx.createGain();
-                    osc.type = "sine";
-                    osc.frequency.value = n.freq;
-                    gain.gain.setValueAtTime(0.3, ctx.currentTime + n.start);
-                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + n.start + n.dur);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(ctx.currentTime + n.start);
-                    osc.stop(ctx.currentTime + n.start + n.dur);
-                });
-            } catch(e) {}
-        }
-
-        function launchConfetti() {
-            var canvas = document.createElement("canvas");
-            canvas.id = "confetti-canvas";
-            canvas.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;";
-            document.body.appendChild(canvas);
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            var ctx = canvas.getContext("2d");
-            var particles = [];
-            var colors = ["#ffd200","#f7971e","#00b894","#74b9ff","#ff6b6b","#d4a5ff","#fd79a8"];
-
-            for (var i = 0; i < 150; i++) {
-                particles.push({
-                    x: Math.random() * canvas.width,
-                    y: Math.random() * canvas.height - canvas.height,
-                    w: Math.random() * 10 + 5,
-                    h: Math.random() * 6 + 3,
-                    color: colors[Math.floor(Math.random() * colors.length)],
-                    vy: Math.random() * 3 + 2,
-                    vx: (Math.random() - 0.5) * 2,
-                    rot: Math.random() * 360,
-                    rotSpeed: (Math.random() - 0.5) * 10
-                });
-            }
-
-            var startTime = Date.now();
-            function animate() {
-                var elapsed = Date.now() - startTime;
-                if (elapsed > 4000) {
-                    document.body.removeChild(canvas);
-                    return;
-                }
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                var opacity = elapsed > 3000 ? 1 - (elapsed - 3000) / 1000 : 1;
-                ctx.globalAlpha = opacity;
-                for (var i = 0; i < particles.length; i++) {
-                    var p = particles[i];
-                    p.y += p.vy;
-                    p.x += p.vx;
-                    p.rot += p.rotSpeed;
-                    ctx.save();
-                    ctx.translate(p.x, p.y);
-                    ctx.rotate(p.rot * Math.PI / 180);
-                    ctx.fillStyle = p.color;
-                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-                    ctx.restore();
-                }
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
+        function confetti(){var cv=document.createElement("canvas");cv.style.cssText="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;";document.body.appendChild(cv);cv.width=window.innerWidth;cv.height=window.innerHeight;var ctx=cv.getContext("2d");var ps=[],cols=["#e53e3e","#16a34a","#2563eb","#d97706","#7c3aed","#ec4899"];for(var i=0;i<120;i++)ps.push({x:Math.random()*cv.width,y:Math.random()*cv.height-cv.height,w:Math.random()*8+4,h:Math.random()*5+2,c:cols[Math.floor(Math.random()*cols.length)],vy:Math.random()*3+2,vx:(Math.random()-0.5)*2,r:Math.random()*360,rs:(Math.random()-0.5)*8});var t0=Date.now();(function draw(){var el=Date.now()-t0;if(el>3500){document.body.removeChild(cv);return;}ctx.clearRect(0,0,cv.width,cv.height);ctx.globalAlpha=el>2500?1-(el-2500)/1000:1;for(var i=0;i<ps.length;i++){var p=ps[i];p.y+=p.vy;p.x+=p.vx;p.r+=p.rs;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r*Math.PI/180);ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();}requestAnimationFrame(draw);})();}
     </script>
 </body>
 </html>"""
@@ -848,194 +758,153 @@ SEARCH_RESULTS_HTML = r"""<!DOCTYPE html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results - AI Deal Hunter</title>
+    <title>Search Results - Deal Hunter</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: #f5f5f5;
+            color: #1a1a1a;
             min-height: 100vh;
-            color: #fff;
-            padding: 40px 20px;
+            padding-bottom: 60px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
-        .back-link {
-            color: #ffd200;
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-        .back-link:hover { text-decoration: underline; }
-        h1 { font-size: 1.8rem; margin-bottom: 8px; }
-        .query-label { color: #aaa; margin-bottom: 24px; font-size: 1rem; }
-        .ai-summary {
-            background: rgba(0, 184, 148, 0.1);
-            border: 1px solid rgba(0, 184, 148, 0.3);
-            border-radius: 12px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            font-size: 1rem;
-            color: #00b894;
-            font-weight: 600;
-        }
-        .product-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 12px;
-            display: flex;
-            gap: 16px;
-            align-items: center;
-            transition: border-color 0.2s;
-        }
-        .product-card:hover {
-            border-color: rgba(255,255,255,0.2);
-        }
-        .product-card.best-pick {
-            border-color: #00b894;
-            background: rgba(0, 184, 148, 0.05);
-            position: relative;
-        }
-        .best-badge {
-            position: absolute;
-            top: -10px;
-            right: 16px;
-            background: linear-gradient(135deg, #00b894, #00cec9);
-            color: #fff;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 4px 12px;
-            border-radius: 12px;
-        }
-        .product-card img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
+        .nav {
             background: #fff;
-            border-radius: 8px;
-            padding: 4px;
-            flex-shrink: 0;
+            border-bottom: 1px solid #eee;
+            padding: 14px 32px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
-        .product-details { flex: 1; min-width: 0; }
-        .product-details h3 {
-            font-size: 0.95rem;
-            margin-bottom: 6px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #1a1a1a;
+            font-weight: 800;
+            font-size: 1.1rem;
         }
-        .product-meta {
+        .nav-brand svg { width: 22px; height: 22px; }
+        .container { max-width: 820px; margin: 0 auto; padding: 32px 20px; }
+        h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
+        .sub { color: #888; font-size: 0.88rem; margin-bottom: 24px; }
+        .ai-pick-banner {
+            background: #fff;
+            border: 1px solid #dcfce7;
+            border-left: 4px solid #16a34a;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            font-size: 0.88rem;
+            color: #166534;
+            font-weight: 600;
+        }
+        .product-item {
+            background: #fff;
+            border: 1px solid #e8e8e8;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 10px;
             display: flex;
             gap: 16px;
             align-items: center;
-            margin-bottom: 6px;
+            position: relative;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.02);
+            transition: box-shadow 0.2s;
         }
-        .product-price {
-            font-size: 1.2rem;
+        .product-item:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
+        .product-item.best { border-color: #bbf7d0; background: #f0fdf4; }
+        .best-label {
+            position: absolute;
+            top: -8px;
+            right: 16px;
+            background: #16a34a;
+            color: #fff;
+            font-size: 0.65rem;
             font-weight: 700;
-            color: #ffd200;
+            padding: 3px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
         }
-        .product-rating {
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-        .product-reason {
-            font-size: 0.85rem;
-            color: #bbb;
-            line-height: 1.4;
-        }
-        .product-actions {
-            display: flex;
-            gap: 8px;
+        .product-item img {
+            width: 72px;
+            height: 72px;
+            object-fit: contain;
+            background: #fafafa;
+            border-radius: 10px;
+            padding: 4px;
+            border: 1px solid #f0f0f0;
             flex-shrink: 0;
         }
-        .btn-view {
-            padding: 8px 16px;
-            background: rgba(116, 185, 255, 0.15);
-            border: 1px solid #74b9ff;
+        .pi-info { flex: 1; min-width: 0; }
+        .pi-info h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .pi-row { display: flex; gap: 12px; align-items: center; margin-bottom: 4px; }
+        .pi-price { font-size: 1.1rem; font-weight: 800; color: #1a1a1a; }
+        .pi-rating { font-size: 0.78rem; color: #999; }
+        .pi-reason { font-size: 0.78rem; color: #888; line-height: 1.4; }
+        .pi-actions { display: flex; gap: 8px; flex-shrink: 0; }
+        .btn-s {
+            padding: 8px 14px;
             border-radius: 8px;
-            color: #74b9ff;
-            text-decoration: none;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
-        }
-        .btn-view:hover { background: rgba(116, 185, 255, 0.25); }
-        .btn-analyze {
-            padding: 8px 16px;
-            background: rgba(255, 210, 0, 0.15);
-            border: 1px solid #ffd200;
-            border-radius: 8px;
-            color: #ffd200;
             text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
+            border: 1px solid #e0e0e0;
+            color: #555;
+            background: #fff;
             cursor: pointer;
+            transition: all 0.15s;
         }
-        .btn-analyze:hover { background: rgba(255, 210, 0, 0.25); }
+        .btn-s:hover { border-color: #ccc; color: #1a1a1a; }
+        .btn-s.red { background: #e53e3e; border-color: #e53e3e; color: #fff; }
+        .btn-s.red:hover { background: #c53030; }
+
+        @media (max-width: 640px) {
+            .product-item { flex-direction: column; align-items: flex-start; }
+            .pi-actions { width: 100%; }
+            .btn-s { flex: 1; text-align: center; }
+            .container { padding: 20px 16px; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="/" class="back-link">&larr; Back to Search</a>
-        <div id="results-content"></div>
-    </div>
+    <nav class="nav">
+        <a href="/" class="nav-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+            Deal Hunter
+        </a>
+    </nav>
+    <div class="container" id="results-content"></div>
     <script type="text/plain" id="raw">SEARCH_DATA_PLACEHOLDER</script>
     <script>
-        var rawEl = document.getElementById("raw");
-        var data = JSON.parse(rawEl.textContent);
-        var container = document.getElementById("results-content");
+        var data = JSON.parse(document.getElementById("raw").textContent);
+        var c = document.getElementById("results-content");
+        function esc(s){if(!s)return "";var d=document.createElement("div");d.appendChild(document.createTextNode(s));return d.innerHTML;}
 
-        function escapeHtml(str) {
-            if (!str) return "";
-            var div = document.createElement("div");
-            div.appendChild(document.createTextNode(str));
-            return div.innerHTML;
+        var h = '<h1>&#x1F6D2; Results</h1>';
+        h += '<p class="sub">Deals for "'+esc(data.query)+'"</p>';
+        if (data.ai_summary) h += '<div class="ai-pick-banner">&#x1F3AF; AI Pick: '+esc(data.ai_summary)+'</div>';
+
+        for (var i=0;i<data.results.length;i++) {
+            var p = data.results[i], best = p.ai_pick;
+            h += '<div class="product-item'+(best?' best':'')+'">';
+            if (best) h += '<span class="best-label">Best Deal</span>';
+            if (p.image) h += '<img src="'+esc(p.image)+'" alt="" />';
+            h += '<div class="pi-info"><h3>'+esc(p.name)+'</h3>';
+            h += '<div class="pi-row"><span class="pi-price">$'+esc(p.price)+'</span>';
+            if (p.rating) h += '<span class="pi-rating">'+p.rating+' &#x2B50; ('+( p.review_count||0)+' reviews)</span>';
+            h += '</div>';
+            if (p.ai_reason) h += '<div class="pi-reason">'+esc(p.ai_reason)+'</div>';
+            h += '</div><div class="pi-actions">';
+            if (p.url) h += '<a class="btn-s" href="'+esc(p.url)+'" target="_blank">View</a>';
+            if (p.url) h += '<a class="btn-s red" href="/?prefill='+encodeURIComponent(p.url)+'">Analyze</a>';
+            h += '</div></div>';
         }
-
-        var html = "";
-        html += '<h1>&#x1F50D; Deal Search Results</h1>';
-        html += '<p class="query-label">Showing best deals for: "' + escapeHtml(data.query) + '"</p>';
-
-        if (data.ai_summary) {
-            html += '<div class="ai-summary">&#x1F3C6; AI Pick: ' + escapeHtml(data.ai_summary) + '</div>';
-        }
-
-        for (var i = 0; i < data.results.length; i++) {
-            var p = data.results[i];
-            var isBest = p.ai_pick;
-            html += '<div class="product-card' + (isBest ? ' best-pick' : '') + '">';
-            if (isBest) {
-                html += '<span class="best-badge">BEST DEAL</span>';
-            }
-            if (p.image) {
-                html += '<img src="' + escapeHtml(p.image) + '" alt="Product" />';
-            }
-            html += '<div class="product-details">';
-            html += '<h3>' + escapeHtml(p.name) + '</h3>';
-            html += '<div class="product-meta">';
-            html += '<span class="product-price">$' + escapeHtml(p.price) + '</span>';
-            if (p.rating) {
-                html += '<span class="product-rating">' + p.rating + ' &#x2B50; (' + (p.review_count || 0) + ' reviews)</span>';
-            }
-            html += '</div>';
-            if (p.ai_reason) {
-                html += '<div class="product-reason">' + escapeHtml(p.ai_reason) + '</div>';
-            }
-            html += '</div>';
-            html += '<div class="product-actions">';
-            if (p.url) {
-                html += '<a class="btn-view" href="' + escapeHtml(p.url) + '" target="_blank">View</a>';
-            }
-            if (p.url) {
-                html += '<a class="btn-analyze" href="/?prefill=' + encodeURIComponent(p.url) + '">Analyze</a>';
-            }
-            html += '</div>';
-            html += '</div>';
-        }
-
-        container.innerHTML = html;
+        c.innerHTML = h;
     </script>
 </body>
 </html>"""
