@@ -110,6 +110,10 @@ def search_competitor_prices(product_name: str, product_price: str = "") -> list
             snippet = result.get("description", "")
             link = result.get("url", "")
 
+            # Skip price tracking sites
+            if "camelcamelcamel" in link.lower():
+                continue
+
             # Find ALL prices in the text and pick the most plausible one
             all_prices = re.findall(r"\$[\d,]+\.?\d*", title + " " + snippet)
             best_price = _pick_best_price(all_prices, ref_price)
@@ -185,6 +189,13 @@ def _extract_store_name(url: str) -> str:
         "amazon": "Amazon",
         "adorama": "Adorama",
         "microcenter": "Micro Center",
+        "staples": "Staples",
+        "officedepot": "Office Depot",
+        "homedepot": "Home Depot",
+        "lowes": "Lowe's",
+        "macys": "Macy's",
+        "nordstrom": "Nordstrom",
+        "zappos": "Zappos",
     }
     url_lower = url.lower()
     for key, name in store_map.items():
