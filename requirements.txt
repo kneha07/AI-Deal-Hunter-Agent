@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+pydantic
+python-dotenv
+apify-client
+boto3
+httpx
+boxsdk>=3.9,<4
