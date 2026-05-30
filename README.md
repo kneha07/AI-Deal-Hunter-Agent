@@ -2,11 +2,12 @@
 
 **Save $200 in 30 seconds.** Paste any Amazon product URL or search for what you want — get an instant AI-powered deal analysis with price comparisons, cheaper alternatives, price predictions, and a buy/wait recommendation.
 
-Built for the **Cascadia AI Hackathon**.
+Built for the **Cascadia AI Hackathon**. Developed with [Kiro](https://kiro.dev) — an AI-powered IDE.
 
 ![Python](https://img.shields.io/badge/Python-3.14-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-latest-green)
 ![AI](https://img.shields.io/badge/AI-Amazon%20Bedrock%20Claude-orange)
+![Built with](https://img.shields.io/badge/Built%20with-Kiro-blueviolet)
 
 ---
 
@@ -87,6 +88,7 @@ User pastes URL  OR  searches for a product
 | Scraping | Apify (Amazon Crawler + Google Search) |
 | Storage | Box (shareable report files) |
 | Frontend | Inline HTML/CSS/JS served by FastAPI |
+| Development | Kiro (AI-powered IDE) |
 
 ---
 
