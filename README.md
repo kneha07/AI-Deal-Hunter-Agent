@@ -213,13 +213,4 @@ Open **http://localhost:8000** in your browser.
 - **URL format is flexible** — handles URLs with or without `https://`, with tracking params, etc.
 - **Confetti triggers** on A+, A, A-, or B+ grades with a "Buy Now" verdict
 
----
 
-## 🏆 Hackathon Judging Criteria
-
-| Criteria | How We Score |
-|----------|-------------|
-| **Technical Chops** | Multi-source scraping, structured AI output, price prediction, dupe finding, search ranking |
-| **Cool Factor** | Dupe Finder + Buy/Wait Predictor + Deal Grade + Price Prediction + Deal Search + Confetti |
-| **Presentation** | "Save $200 in 30 seconds" — paste a URL or just search for what you want |
-| **Demo Success** | Two flows: paste any Amazon link OR search "best coffee maker" → instant results |
