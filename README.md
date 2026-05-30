@@ -1,6 +1,6 @@
 # 🔍 AI Deal Hunter Agent
 
-**Save $200 in 30 seconds.** Paste any Amazon product URL or search for what you want — get an instant AI-powered deal analysis with price comparisons, cheaper alternatives, price predictions, and a buy/wait recommendation.
+**Save $200 in 30 seconds.** Paste any product URL — Amazon, Best Buy, Walmart, or any online store — or search for what you want. Get an instant AI-powered deal analysis with price comparisons, cheaper alternatives, price predictions, and a buy/wait recommendation.
 
 Built for the **Cascadia AI Hackathon**. Developed with [Kiro](https://kiro.dev) — an AI-powered IDE.
 
@@ -147,7 +147,7 @@ Open **http://localhost:8000** in your browser.
 
 **Option A — Analyze a specific product:**
 1. Click "Analyze URL" tab
-2. Paste any Amazon product URL
+2. Paste any product URL (Amazon, Best Buy, Walmart, or any store)
 3. Click "Hunt Deal"
 4. Get your full Deal Report Card
 
@@ -214,5 +214,53 @@ Open **http://localhost:8000** in your browser.
 - **Deal search takes ~15-20 seconds** (Amazon search + AI ranking)
 - **URL format is flexible** — handles URLs with or without `https://`, with tracking params, etc.
 - **Confetti triggers** on A+, A, A-, or B+ grades with a "Buy Now" verdict
+
+---
+
+## 🔌 Service Usage Breakdown
+
+### Apify — 3 calls per analysis
+
+| # | Actor | Purpose | When |
+|---|-------|---------|------|
+| 1 | `junglee/amazon-crawler` | Scrape product page (name, price, rating, reviews) | URL analysis |
+| 2 | `apify/google-search-scraper` | Search competitor prices across retailers | URL analysis |
+| 3 | `junglee/amazon-crawler` | Search Amazon for products by keyword | Deal search flow |
+
+- Used in: `agent/scraper.py`
+- Total calls per URL analysis: **2** (product scrape + competitor search)
+- Total calls per deal search: **1** (Amazon keyword search)
+
+### Amazon Bedrock (Claude Haiku 4.5) — 1-2 calls per request
+
+| # | Purpose | When |
+|---|---------|------|
+| 1 | Full deal analysis (grade, buy/wait, price prediction, sentiment, dupes, report) | URL analysis |
+| 2 | Compare and rank search results, pick best deal | Deal search flow |
+
+- Used in: `agent/analyzer.py`
+- Model: `us.anthropic.claude-haiku-4-5-20251001-v1:0`
+- Total calls per URL analysis: **1**
+- Total calls per deal search: **1**
+- Total calls if user searches then analyzes a result: **2**
+
+### Box — 1 call per analysis
+
+| # | Purpose | When |
+|---|---------|------|
+| 1 | Upload markdown report + generate shared link | After URL analysis completes |
+
+- Used in: `agent/exporter.py`
+- Auth: OAuth2 with developer token
+- Total calls per URL analysis: **1** (upload + shared link)
+- Not used in deal search flow (only on full analysis)
+
+### Total API calls per full flow
+
+| Flow | Apify | Bedrock | Box | Total |
+|------|-------|---------|-----|-------|
+| URL Analysis | 2 | 1 | 1 | **4** |
+| Deal Search | 1 | 1 | 0 | **2** |
+| Search → Analyze | 3 | 2 | 1 | **6** |
 
 

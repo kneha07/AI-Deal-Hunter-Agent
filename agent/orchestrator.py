@@ -1,8 +1,11 @@
 import uuid
+import logging
 from agent.scraper import scrape_amazon_product, search_competitor_prices
 from agent.analyzer import analyze_deal
 from agent.exporter import upload_report
 from models.schemas import DealReport, CompetitorPrice, ReviewSentiment, DupeProduct, PricePrediction
+
+logger = logging.getLogger(__name__)
 
 
 def run_deal_analysis(product_url: str) -> DealReport:
