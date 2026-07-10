@@ -1,6 +1,6 @@
 # 🔍 AI Deal Hunter Agent
 
-**Save $200 in 30 seconds.** Paste any product URL — Amazon, Best Buy, Walmart, or any online store — or search for what you want. Get an instant AI-powered deal analysis with price comparisons, cheaper alternatives, price predictions, and a buy/wait recommendation.
+**Save few $$ in 30 seconds.** Paste any product URL — Amazon, Best Buy, Walmart, or any online store — or search for what you want. Get an instant AI-powered deal analysis with price comparisons, cheaper alternatives, price predictions, and a buy/wait recommendation.
 
 Built for the **Cascadia AI Hackathon**. Developed with [Kiro](https://kiro.dev) — an AI-powered IDE.
 
